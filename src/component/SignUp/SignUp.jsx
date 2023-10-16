@@ -21,7 +21,7 @@ const SignUp = () => {
     }),
     onSubmit: async (values) => {
       createUserWithEmailAndPassword(auth, values.email, values.password).then(
-        () => setError(null).catch((error) => setError(error))
+        () => setsetError(null).catch((error) => setsetError(error))
       );
     },
   });
