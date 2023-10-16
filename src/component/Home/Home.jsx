@@ -4,17 +4,24 @@ import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <>
-      <div className="contaier">
-        <div className="row">
-          <div className="col-md-d">
-            <Link to="signup">
-              <button className="btn btn-pirmery">SignUp</button>
-            </Link>
+      <div className="contaier mt-5">
+        <div className="row d-flex  justify-content-start align-self-center">
+          <div className="col-md-6">
+            <h2 className="h2 title">
+              <strong className="mx-5">Welcome To MessengerApp</strong>
+            </h2>
           </div>
-          <div className="col-md-d">
-            <Link to="login">
-              <button className="btn btn-pirmery">Login</button>
-            </Link>
+          <div className="row">
+            <div className="col-md-6 d-flex justify-content-between ">
+              <Link to="signup">
+                <button className="btn btn-pirmery w-100 p-3 m-5">
+                  SignUp
+                </button>
+              </Link>
+              <Link to="login">
+                <button className="btn btn-pirmery w-100 p-3 m-5">Login</button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

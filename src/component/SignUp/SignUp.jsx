@@ -81,6 +81,7 @@ const SignUp = () => {
                   className="btn btn-pirmery w-100 p-2"
                   type="submit"
                   onSubmit={formik.handleSubmit}
+                  disabled={!formik.isValid || formik.isSubmitting}
                 >
                   SignUp
                 </button>
