@@ -20,8 +20,9 @@ body {
   background: var(--background);
   background-size: cover;
   background-repeat: no-repeat;
-  /* background-position: center; */
+  background-position: center;
   position: relative;
+  height: 100vh;
 }
 .brightness-filter {
   filter: brightness(1) !important;

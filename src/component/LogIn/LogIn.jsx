@@ -4,7 +4,9 @@ import { auth, signInWithEmailAndPassword } from "../../firebase.js";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 const LogIn = () => {
+  const navigete = useNavigate();
   const [setError, setsetError] = useState(null);
   const formik = useFormik({
     initialValues: {
@@ -20,9 +22,12 @@ const LogIn = () => {
         .required("Password is Required!"),
     }),
     onSubmit: async (values) => {
-      signInWithEmailAndPassword(auth, values.email, values.password).then(() =>
-        setsetError(null).catch((error) => setsetError(error))
-      );
+      signInWithEmailAndPassword(auth, values.email, values.password)
+        .then(() => {
+          setsetError(null);
+          navigete("/chatroom");
+        })
+        .catch((error) => setsetError(error));
     },
   });
 

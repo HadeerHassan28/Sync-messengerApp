@@ -4,49 +4,49 @@ import styles from "./ChatRoom.module.css";
 import { db } from "../../firebase"; // Import db from firebase.js
 
 const ChatRoom = ({ currentUser }) => {
-  const [msg, setMsg] = useState("");
-  const [msgs, setMsgs] = useState([]);
+  const [message, setmessage] = useState("");
+  const [messages, setmessages] = useState([]);
 
   useEffect(() => {
-    const msgRef = db.ref("msg");
-    msgRef.on("value", (snapshot) => {
-      const msgData = snapshot.val();
-      if (msgData) {
-        const msgArray = Object.values(msgData);
-        setMsgs(msgArray);
+    const messageRef = db.ref("message");
+    messageRef.on("value", (snapshot) => {
+      const messageData = snapshot.val();
+      if (messageData) {
+        const messageArray = Object.values(messageData);
+        setmessages(messageArray);
       } else {
-        setMsgs([]);
+        setmessages([]);
       }
     });
 
     return () => {
-      msgRef.off("value");
+      messageRef.off("value");
     };
   }, []);
 
   const sendMsg = () => {
     const newMsg = {
-      sender: currentUser.displayName,
-      text: msg,
+      sender: currentUser,
+      text: message,
       timestamp: Date.now(),
     };
-    db.ref("msg").push(newMsg);
-    setMsg("");
+    db.ref("message").push(newMsg);
+    setmessage("");
   };
 
   return (
     <>
       <div>
         <div style={{ height: "300px", overflowY: "scroll" }}>
-          {msgs.map((msg) => (
+          {messages.map((msg) => (
             <Message key={msg.timestamp} message={msg} />
           ))}
         </div>
         <div>
           <input
             type="text"
-            value={msg}
-            onChange={(e) => setMsg(e.target.value)}
+            value={message}
+            onChange={(e) => setmessage(e.target.value)}
             placeholder="Type your message..."
           />
           <button onClick={sendMsg}>Send</button>

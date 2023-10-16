@@ -8,6 +8,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { getDatabase } from "firebase/database";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -28,6 +29,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getDatabase(app);
+const messaging = getMessaging(app);
 
 export {
   auth,
@@ -35,4 +37,7 @@ export {
   signInWithEmailAndPassword,
   db,
   onAuthStateChanged,
+  messaging,
+  getToken,
+  onMessage,
 };
