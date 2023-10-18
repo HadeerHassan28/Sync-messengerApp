@@ -1,20 +1,27 @@
 import React, { useState, useRef } from "react";
 
 import Home from "./component/Home/Home";
-
 import ChatRoom from "./component/ChatRoom/ChatRoom";
-
+import NavBar from "./component/NavBar/NavBar";
 import Cookies from "universal-cookie";
+import { signOut } from "firebase/auth";
+import { auth } from "./firebase";
 const cookies = new Cookies();
 function App() {
   const [isAuth, setIsAuth] = useState(cookies.get("auth-token"));
   const [room, setRoom] = useState(null);
 
   const roomInputRef = useRef(null);
-
+  const signUserOut = async () => {
+    await signOut(auth);
+    cookies.remove("auth-token");
+    setIsAuth(false);
+    setRoom(null);
+  };
   if (!isAuth) {
     return (
       <>
+        <NavBar signUserOut={signUserOut} isAuth={isAuth} />
         <Home setIsAuth={setIsAuth} />
       </>
     );
@@ -23,10 +30,12 @@ function App() {
     <>
       {room ? (
         <>
+          <NavBar signUserOut={signUserOut} isAuth={isAuth} />
           <ChatRoom room={room} />
         </>
       ) : (
         <>
+          <NavBar signUserOut={signUserOut} isAuth={isAuth} />
           <div className="contaier mt-5 mx-5">
             <div className="col-md-6 d-flex  justify-content-start align-self-center flex-column">
               <h3 className="title">Enter a Room Name</h3>

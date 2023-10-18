@@ -7,6 +7,7 @@ import {
   onSnapshot,
   query,
   where,
+  orderBy,
 } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 
@@ -16,7 +17,11 @@ const ChatRoom = ({ room }) => {
   const messagesRef = collection(db, "messages");
 
   useEffect(() => {
-    const queryMsg = query(messagesRef, where("room", "==", room));
+    const queryMsg = query(
+      messagesRef,
+      where("room", "==", room),
+      orderBy("createdAt")
+    );
     const unsuscrib = onSnapshot(queryMsg, (snapshot) => {
       let msgs = [];
       snapshot.forEach((doc) => {
@@ -38,19 +43,19 @@ const ChatRoom = ({ room }) => {
     });
     setnewMsg("");
   };
-
+  //!to display time
   const formatTimestamp = (timestamp) => {
-    const date = new Date(
-      timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-    );
+    const seconds = timestamp?.seconds || 0;
+    const nanoseconds = timestamp?.nanoseconds || 0;
+
+    const date = new Date(seconds * 1000 + nanoseconds / 1000000);
+
     return date.toLocaleString("en-US", {
       year: "numeric",
       month: "short",
       day: "numeric",
       hour: "2-digit",
       minute: "2-digit",
-      second: "2-digit",
-      timeZoneName: "short",
     });
   };
   const formattedMessages = messages.map((message) => {
@@ -59,8 +64,8 @@ const ChatRoom = ({ room }) => {
   });
   return (
     <>
-      <div className="contanier mt-3 mx-5">
-        <div className="d-flex  justify-content-center align-self-center mb-4">
+      <div className="container mt-3 ">
+        <div className="d-flex  justify-content-center align-self-center mb-3">
           <h2 className="title">
             <strong>Welcome to {room.toUpperCase()}</strong>
           </h2>
@@ -89,7 +94,7 @@ const ChatRoom = ({ room }) => {
         <form className="new-msg-form mt-3" onSubmit={handleSubmit}>
           <div className="d-flex  justify-content-start align-self-center ">
             <input
-              className="inputMsg border"
+              className="inputMsg border px-3"
               placeholder="Type your message here..."
               onChange={(e) => setnewMsg(e.target.value)}
               value={newMsg}
@@ -97,10 +102,10 @@ const ChatRoom = ({ room }) => {
           </div>
 
           <button
-            className="btn btn-pirmery align-self-end p-2 m-3"
+            className="btn btn-pirmery align-self-end p-2 m-3 bg-btn"
             type="submit"
           >
-            Send
+            <strong>Send</strong>
           </button>
         </form>
       </div>

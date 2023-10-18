@@ -8,7 +8,7 @@
     rgba(145, 158, 171, 0.14) 0px 4px 5px 0px,
     rgba(145, 158, 171, 0.12) 0px 1px 10px 0px;
   --font-family: "Encode Sans Expanded", sans-serif;
-  --rating-color: #ffc908;
+  --rating-color: #f0d678;
   --background: url("../src/assets/images/bg.jpeg");
 }
 
@@ -20,6 +20,10 @@ body {
   background-position: center;
   position: relative;
   height: 100vh;
+}
+.bg-nav {
+  background-color: #000000 !important;
+  opacity: 0.6;
 }
 .bg-main {
   background: var(--main-color);
@@ -33,7 +37,6 @@ body {
 }
 .btn {
   border: 2px solid var(--light-color);
-  /* background: var(--light-color); */
   color: var(--text-color);
   font-size: larger;
 }
@@ -56,6 +59,7 @@ body {
 }
 .input {
   height: 3em;
+  text-align: center;
 }
 .inputMsg {
   height: 5em;
@@ -75,4 +79,10 @@ body {
 }
 .bg-main {
   background-color: aliceblue;
+}
+.bg-btn {
+  background-color: var(--rating-color);
+}
+.btnSignOut {
+  border: none;
 }
