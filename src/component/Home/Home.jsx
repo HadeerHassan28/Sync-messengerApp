@@ -1,7 +1,20 @@
 import React from "react";
 import styles from "./Home.module.css";
-import { Link } from "react-router-dom";
-const Home = () => {
+
+import { auth, provider } from "../../firebase";
+import { signInWithPopup } from "firebase/auth";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+const Home = ({ setIsAuth }) => {
+  const signInWithGoogle = async () => {
+    try {
+      let result = await signInWithPopup(auth, provider);
+      cookies.set("auth-token", result.user.refreshToken);
+      setIsAuth(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
       <div className="contaier mt-5">
@@ -12,12 +25,12 @@ const Home = () => {
         </div>
 
         <div className="col-md-6 d-flex justify-content-between ">
-          <Link to="signup">
-            <button className="btn btn-pirmery w-100 p-3 m-5">SignUp</button>
-          </Link>
-          <Link to="login">
-            <button className="btn btn-pirmery w-100 p-3 m-5">Login</button>
-          </Link>
+          <button
+            className="btn btn-pirmery w-100 p-3 m-5"
+            onClick={signInWithGoogle}
+          >
+            SignIn With Google
+          </button>
         </div>
       </div>
     </>

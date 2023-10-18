@@ -1,70 +1,49 @@
-import React, { useEffect, useState } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "./component/Layout/Layout";
+import React, { useState, useRef } from "react";
+
 import Home from "./component/Home/Home";
-import Login from "./component/LogIn/LogIn";
-import SignUp from "./component/SignUp/SignUp";
+
 import ChatRoom from "./component/ChatRoom/ChatRoom";
-// import ReadData from "./component/ReadData/ReadData";
-// import WriteData from "./component/WriteData/WriteData";
-import NotFound from "./component/NotFound/NotFound";
-import { auth, onAuthStateChanged } from "./firebase";
 
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 function App() {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [isAuth, setIsAuth] = useState(cookies.get("auth-token"));
+  const [room, setRoom] = useState(null);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-    });
+  const roomInputRef = useRef(null);
 
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
-  let router = createBrowserRouter([
-    {
-      path: "",
-      element: <Layout />,
-      children: [
-        {
-          index: true,
-          element: <Home />,
-        },
-        {
-          path: "login",
-          element: <Login />,
-        },
-        {
-          path: "signup",
-          element: <SignUp />,
-        },
-        {
-          path: "chatroom",
-          element: <ChatRoom currentUser={currentUser} />, // Pass currentUser as a prop
-        },
-        // {
-        //   path: "read",
-        //   element: <ReadData />,
-        // },
-        // {
-        //   path: "write",
-        //   element: <WriteData />,
-        // },
-        {
-          path: "*",
-          element: <NotFound />,
-        },
-      ],
-    },
-  ]);
-
+  if (!isAuth) {
+    return (
+      <>
+        <Home setIsAuth={setIsAuth} />
+      </>
+    );
+  }
   return (
     <>
-      <RouterProvider router={router}>
-        <Layout />
-      </RouterProvider>
+      {room ? (
+        <>
+          <ChatRoom />
+        </>
+      ) : (
+        <>
+          <div className="contaier mt-5 mx-5">
+            <div className="col-md-6 d-flex  justify-content-start align-self-center flex-column">
+              <h3 className="title">Enter a Room Name</h3>
+              <input ref={roomInputRef} className="border input mt-4"></input>
+
+              <div className="col-md-6 d-flex justify-content-between ">
+                <button
+                  className="btn btn-pirmery w-100 p-3 m-5"
+                  onClick={() => setRoom(roomInputRef.current.value)}
+                >
+                  <strong> Enter</strong>
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }

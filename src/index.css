@@ -72,3 +72,6 @@ body {
 .border {
   border: 1px solid var(--rating-color);
 }
+.input {
+  height: 3em;
+}

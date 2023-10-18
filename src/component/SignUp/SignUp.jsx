@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./SignUp.module.css";
-import { auth, createUserWithEmailAndPassword } from "../../firebase.js";
-
+import { auth } from "../../firebase.js";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -22,12 +22,17 @@ const SignUp = () => {
         .required("Password is Required!"),
     }),
     onSubmit: async (values) => {
-      createUserWithEmailAndPassword(auth, values.email, values.password)
+      let result = await createUserWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      )
         .then(() => {
           setsetError(null);
-          navigete("/login");
+          //navigete("/login");
         })
         .catch((error) => setsetError(error));
+      console.log(result);
     },
   });
 

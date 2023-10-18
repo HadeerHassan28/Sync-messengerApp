@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./LogIn.module.css";
-import { auth, signInWithEmailAndPassword } from "../../firebase.js";
-
+import { auth } from "../../firebase.js";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -22,12 +22,17 @@ const LogIn = () => {
         .required("Password is Required!"),
     }),
     onSubmit: async (values) => {
-      signInWithEmailAndPassword(auth, values.email, values.password)
+      let result = await signInWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      )
         .then(() => {
           setsetError(null);
-          navigete("/chatroom");
+          //navigete("/chatroom");
         })
         .catch((error) => setsetError(error));
+      console.log(result);
     },
   });
 
