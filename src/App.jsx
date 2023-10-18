@@ -23,7 +23,7 @@ function App() {
     <>
       {room ? (
         <>
-          <ChatRoom />
+          <ChatRoom room={room} />
         </>
       ) : (
         <>
