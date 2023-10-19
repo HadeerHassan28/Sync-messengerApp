@@ -102,7 +102,7 @@ const ChatRoom = ({ room }) => {
           </div>
 
           <button
-            className="btn btn-pirmery align-self-end p-2 m-3 bg-btn"
+            className="btn btn-pirmery align-self-end p-3 m-3 bg-btn"
             type="submit"
           >
             <strong>Send</strong>

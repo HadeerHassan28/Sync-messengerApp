@@ -16,7 +16,7 @@ body {
   font-family: var(--font-family) !important;
   background: var(--background);
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   background-position: center;
   position: relative;
   height: 100vh;

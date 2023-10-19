@@ -18,6 +18,7 @@ function App() {
     setIsAuth(false);
     setRoom(null);
   };
+
   if (!isAuth) {
     return (
       <>
