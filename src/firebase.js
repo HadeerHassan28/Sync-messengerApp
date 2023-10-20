@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getMessaging } from "firebase/messaging";
+import { getMessaging, onMessage } from "firebase/messaging";
 import "firebase/messaging";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -27,7 +27,7 @@ export const db = getFirestore(app);
 const messaging = getMessaging(app);
 
 const publicKey =
-  "BPCMTBsfo6DGqjbpDLG3ta_KHfVNrPN_rc3bIJj-cqPhianu-CLpWbLaV_jtJElqXiQfPXUbhhRJuY2Nfuu3RuY";
+  "BLtlo70jxVw5bqEM4nQZLRHMuWwhlNJ22BVt5zMQlI2Lynbw669pDJXmgquMJIuLL70kdhczu3fi6EWyPM_4GAE";
 
 export const getToken = async (setTokenFound) => {
   let cureentToken = "";
@@ -43,8 +43,12 @@ export const getToken = async (setTokenFound) => {
 
 export const onMessageListener = () => {
   new Promise((resolve) => {
-    messaging.onMessage(async (payload) => {
+    const unsubscribe = onMessage(messaging, (payload) => {
       resolve(payload);
     });
+    return () => unsubscribe;
+    // messaging().onMessageHa(async (payload) => {
+    // resolve(payload);
+    // });
   });
 };
