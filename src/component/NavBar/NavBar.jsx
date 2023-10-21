@@ -26,18 +26,16 @@ const NavBar = ({ signUserOut, isAuth }) => {
           </button>
 
           {isAuth ? (
-            <>
-              <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div className="navbar-nav ml-auto">
-                  <button
-                    className="btnSignOut btn p-1 mx-5"
-                    onClick={signUserOut}
-                  >
-                    <strong className="mx-5 title">SignOut</strong>
-                  </button>
-                </div>
+            <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div className="navbar-nav ml-auto">
+                <button
+                  className="btnSignOut btn p-1 mx-5"
+                  onClick={signUserOut}
+                >
+                  <strong className="mx-5 title">SignOut</strong>
+                </button>
               </div>
-            </>
+            </div>
           ) : null}
         </div>
       </nav>
