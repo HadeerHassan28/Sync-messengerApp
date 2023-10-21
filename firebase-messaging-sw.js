@@ -1,6 +1,7 @@
-// import firebase from "firebase/app";
-// import "firebase/messaging";
-<><script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js"></><script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-messaging.js"></script></>
+self.importScripts("https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js");
+self.importScripts(
+  "https://www.gstatic.com/firebasejs/9.6.2/firebase-messaging-compat.js"
+);
 const firebaseConfig = {
   apiKey: "AIzaSyBCagfGW2FdggWsDw-nWtsm9i1KfOWCQAY",
   authDomain: "syncmessengerapp.firebaseapp.com",

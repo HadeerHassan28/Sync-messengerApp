@@ -7,10 +7,11 @@ import ReactNotification from "./component/ReactNotification/ReactNotification";
 import Notifications from "./component/Notification/Notification";
 import Cookies from "universal-cookie";
 import { signOut } from "firebase/auth";
-import { auth, onMessageListener } from "./firebase";
+import { auth, onMessageListener } from "../firebase";
 const cookies = new Cookies();
 function App() {
   const [isAuth, setIsAuth] = useState(cookies.get("auth-token"));
+
   const [room, setRoom] = useState(null);
 
   const roomInputRef = useRef(null);
@@ -24,45 +25,28 @@ function App() {
   //!Notification:
   const [show, setshow] = useState(false);
   const [notification, setNotification] = useState({ title: "", body: "" });
+  const handleMessages = async () => {
+    try {
+      const payload = await onMessageListener(payload);
+      console.log("New Message Received:", payload);
 
-  useEffect(() => {
-    if (isAuth) {
-      const handleMessages = async () => {
-        try {
-          const payload = await onMessageListener();
-          console.log("New Message Received:", payload);
-
-          // Check if payload contains necessary data
-          if (
-            payload &&
-            payload.notification &&
-            payload.notification.title &&
-            payload.notification.body
-          ) {
-            setshow(true);
-            setNotification({
-              title: payload.notification.title,
-              body: payload.notification.body,
-            });
-          }
-        } catch (error) {
-          console.log("Error handling message:", error);
-        }
-      };
-      handleMessages();
+      // Check if payload contains necessary data
+      if (payload) {
+        setshow(true);
+        setNotification({
+          title: payload.notification.title,
+          body: payload.notification.body,
+        });
+      }
+    } catch (error) {
+      console.log("Error handling message:", error);
     }
-  }, [isAuth]);
+  };
+  handleMessages();
 
   if (!isAuth) {
     return (
       <>
-        {show ? (
-          <ReactNotification
-            title={notification.title}
-            body={notification.body}
-          />
-        ) : null}
-        <Notifications />
         <NavBar signUserOut={signUserOut} isAuth={isAuth} />
         <Home setIsAuth={setIsAuth} />
       </>

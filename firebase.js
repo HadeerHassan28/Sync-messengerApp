@@ -2,8 +2,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getMessaging, onMessage } from "firebase/messaging";
-import "firebase/messaging";
+import { getMessaging, onMessage, getToken } from "firebase/messaging";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -27,12 +27,13 @@ export const db = getFirestore(app);
 const messaging = getMessaging(app);
 
 const publicKey =
-  "BLtlo70jxVw5bqEM4nQZLRHMuWwhlNJ22BVt5zMQlI2Lynbw669pDJXmgquMJIuLL70kdhczu3fi6EWyPM_4GAE";
+  "AAAAJ3jTiL0:APA91bH4zdE5DscUhpvzua7VRuT4GO_e72m9MwF9OQWlj3ehS-_kd3KlBTxQq1N4A-ADJgVZ--FNnVln6ZKeb8vL0oxOHk5Y3EUsPR14oN_223DtU1lulLanEAyoPvpZPB8XC4SDAbj3";
 
-export const getToken = async (setTokenFound) => {
+export const getTokenID = async (setTokenFound) => {
   let cureentToken = "";
   try {
-    cureentToken = await messaging.getToken({ vapidKey: publicKey });
+    cureentToken = await getToken({ vapidKey: publicKey });
+    console.log(cureentToken);
     if (cureentToken) setTokenFound(true);
     else setTokenFound(false);
   } catch (error) {

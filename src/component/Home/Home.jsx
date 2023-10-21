@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Home.module.css";
 
-import { auth, provider } from "../../firebase";
+import { auth, provider } from "../../../firebase";
 import { signInWithPopup } from "firebase/auth";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();

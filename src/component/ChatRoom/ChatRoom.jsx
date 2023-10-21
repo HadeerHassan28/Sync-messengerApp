@@ -9,7 +9,7 @@ import {
   where,
   orderBy,
 } from "firebase/firestore";
-import { auth, db } from "../../firebase";
+import { auth, db } from "../../../firebase";
 
 const ChatRoom = ({ room }) => {
   const [newMsg, setnewMsg] = useState("");
