@@ -1,11 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-
+import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import "firebase/messaging";
-import firebase from "firebase/app";
-
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -26,26 +23,3 @@ export const app = initializeApp(firebaseConfig);
 export const provider = new GoogleAuthProvider();
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export const messaging = firebase.messaging;
-const publicKey = `BPCMTBsfo6DGqjbpDLG3ta_KHfVNrPN_rc3bIJj -
-  cqPhianu -
-  CLpWbLaV_jtJElqXiQfPXUbhhRJuY2Nfuu3RuY`;
-export const getToken = async (setTokenFound) => {
-  let currentToken = "";
-  try {
-    currentToken = await messaging.getToken({ vapiKey: publicKey });
-    if (currentToken) setTokenFound(true);
-    else setTokenFound(false);
-  } catch (error) {
-    console.log(error);
-  }
-  return currentToken;
-};
-
-export const onMessagesLisener = () => {
-  new Promise((reslove) => {
-    messaging.OnMessage((payload) => {
-      reslove(payload);
-    });
-  });
-};

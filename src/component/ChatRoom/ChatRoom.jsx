@@ -9,7 +9,7 @@ import {
   where,
   orderBy,
 } from "firebase/firestore";
-import { auth, db } from "../../firebase";
+import { auth, db } from "../../../firebase";
 
 const ChatRoom = ({ room }) => {
   const [newMsg, setnewMsg] = useState("");
@@ -29,7 +29,12 @@ const ChatRoom = ({ room }) => {
       });
       setMessages(msgs);
     });
-    return () => unsuscrib(); //cleanup function to stop listening for changes when the component unmounts
+
+    // Subscribe to foreground FCM messages
+
+    return () => {
+      unsuscrib();
+    }; //cleanup function to stop listening for changes when the component unmounts
   }, []);
 
   const handleSubmit = async (e) => {
@@ -62,6 +67,7 @@ const ChatRoom = ({ room }) => {
     const formattedCreatedAt = formatTimestamp(message.createdAt);
     return { ...message, createdAt: formattedCreatedAt };
   });
+
   return (
     <>
       <div className="container mt-3 ">

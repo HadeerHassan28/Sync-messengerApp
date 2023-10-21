@@ -86,3 +86,8 @@ body {
 .btnSignOut {
   border: none;
 }
+@media (max-width: 1000px) {
+  .navbar-toggler-icon {
+    background-color: var(--text-color);
+  }
+}
