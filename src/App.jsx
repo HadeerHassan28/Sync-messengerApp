@@ -8,8 +8,8 @@ import ReactNotification from "./component/ReactNotification/ReactNotification";
 import Cookies from "universal-cookie";
 import { signOut } from "firebase/auth";
 import { auth, messaging } from "../firebase";
-import { onMessage } from "@firebase/messaging";
-
+import { onMessage } from "firebase/messaging";
+import { onBackgroundMessage } from "firebase/messaging/sw";
 const cookies = new Cookies();
 function App() {
   const [isAuth, setIsAuth] = useState(cookies.get("auth-token"));
@@ -37,16 +37,38 @@ function App() {
             title: payload.notification.title,
             body: payload.notification.body,
           });
+          console.log(notification.title);
         } else console.log("error");
       });
     } catch (error) {
       console.log("Error handling message:", error);
     }
   };
+  //   try {
+  //     onBackgroundMessage(messaging, (payload) => {
+  //       console.log(
+  //         "[firebase-messaging-sw.js] Received background message ",
+  //         payload
+  //       );
+  //       const notificationTitle = "Background Message Title";
+  //       const notificationOptions = {
+  //         body: "Background Message body.",
+  //         icon: "/firebase-logo.png",
+  //       };
+
+  //       self.registration.showNotification(
+  //         notificationTitle,
+  //         notificationOptions
+  //       );
+  //     });
+  //   } catch (error) {
+  //     console.log("Error handling message:", error);
+  //   }
+  // };
 
   useEffect(() => {
     handleMessages();
-  }, [show]);
+  }, [room]);
   if (!isAuth) {
     return (
       <>
@@ -57,7 +79,7 @@ function App() {
   }
   return (
     <>
-      {show ? (
+      {room && show ? (
         <ReactNotification
           title={notification.title}
           body={notification.body}
@@ -65,12 +87,6 @@ function App() {
       ) : null}
       {room ? (
         <>
-          <ReactNotification
-            title={notification.title}
-            body={notification.body}
-          />
-
-          {/* <Notifications /> */}
           <NavBar signUserOut={signUserOut} isAuth={isAuth} />
           <ChatRoom room={room} />
         </>
