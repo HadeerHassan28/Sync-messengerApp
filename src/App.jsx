@@ -7,9 +7,8 @@ import ReactNotification from "./component/ReactNotification/ReactNotification";
 // import Notifications from "./component/Notification/Notification";
 import Cookies from "universal-cookie";
 import { signOut } from "firebase/auth";
-import { auth, messaging } from "../firebase";
-import { onMessage } from "firebase/messaging";
-import { onBackgroundMessage } from "firebase/messaging/sw";
+import { auth, NewMsgNoti } from "../firebase";
+
 const cookies = new Cookies();
 function App() {
   const [isAuth, setIsAuth] = useState(cookies.get("auth-token"));
@@ -28,47 +27,21 @@ function App() {
   const [show, setshow] = useState(false);
   const [notification, setNotification] = useState({ title: "", body: "" });
   const handleMessages = () => {
-    try {
-      onMessage(messaging, (payload) => {
-        console.log("New Message Received:", payload);
-        if (payload) {
-          setshow(true);
-          setNotification({
-            title: payload.notification.title,
-            body: payload.notification.body,
-          });
-          console.log(notification.title);
-        } else console.log("error");
+    let newMsg = NewMsgNoti();
+    console.log("New Message Received:", newMsg);
+    if (newMsg) {
+      setshow(true);
+      setNotification({
+        title: newMsg.title,
+        body: newMsg.body,
       });
-    } catch (error) {
-      console.log("Error handling message:", error);
-    }
+      console.log(notification.title);
+    } else console.log("error");
   };
-  //   try {
-  //     onBackgroundMessage(messaging, (payload) => {
-  //       console.log(
-  //         "[firebase-messaging-sw.js] Received background message ",
-  //         payload
-  //       );
-  //       const notificationTitle = "Background Message Title";
-  //       const notificationOptions = {
-  //         body: "Background Message body.",
-  //         icon: "/firebase-logo.png",
-  //       };
-
-  //       self.registration.showNotification(
-  //         notificationTitle,
-  //         notificationOptions
-  //       );
-  //     });
-  //   } catch (error) {
-  //     console.log("Error handling message:", error);
-  //   }
-  // };
 
   useEffect(() => {
     handleMessages();
-  }, [room]);
+  }, [show]);
   if (!isAuth) {
     return (
       <>
@@ -92,7 +65,6 @@ function App() {
         </>
       ) : (
         <>
-          {/* <Notifications /> */}
           <NavBar signUserOut={signUserOut} isAuth={isAuth} />
           <div className="contaier mt-5 mx-5">
             <div className="col-md-6 d-flex  justify-content-start align-self-center flex-column">
