@@ -22,8 +22,6 @@ function App() {
     setRoom(null);
   };
 
-<<<<<<< HEAD
-=======
   //!Notification:
   const [show, setshow] = useState(false);
   const [notification, setNotification] = useState({ title: "", body: "" });
@@ -46,7 +44,6 @@ function App() {
   };
   handleMessages();
 
->>>>>>> e32cbb1
   if (!isAuth) {
     return (
       <>

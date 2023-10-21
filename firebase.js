@@ -1,8 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getMessaging, onMessage } from "firebase/messaging";
+import "firebase/messaging";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -23,3 +24,27 @@ export const app = initializeApp(firebaseConfig);
 export const provider = new GoogleAuthProvider();
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+const messaging = getMessaging(app);
+
+const publicKey =
+  "AAAAJ3jTiL0:APA91bH4zdE5DscUhpvzua7VRuT4GO_e72m9MwF9OQWlj3ehS-_kd3KlBTxQq1N4A-ADJgVZ--FNnVln6ZKeb8vL0oxOHk5Y3EUsPR14oN_223DtU1lulLanEAyoPvpZPB8XC4SDAbj3";
+
+export const getTokenID = async (setTokenFound) => {
+  let cureentToken = "";
+  try {
+    cureentToken = await messaging.getToken({ vapidKey: publicKey });
+    if (cureentToken) setTokenFound(true);
+    else setTokenFound(false);
+  } catch (error) {
+    console.log(error);
+  }
+  return cureentToken;
+};
+export const onMessageListener = () => {
+  new Promise((resolve) => {
+    const unsubscribe = onMessage(messaging, (payload) => {
+      resolve(payload);
+    });
+    return () => unsubscribe;
+  });
+};
