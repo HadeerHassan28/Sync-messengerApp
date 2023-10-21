@@ -29,17 +29,10 @@ const messaging = getMessaging(app);
 const publicKey =
   "AAAAJ3jTiL0:APA91bH4zdE5DscUhpvzua7VRuT4GO_e72m9MwF9OQWlj3ehS-_kd3KlBTxQq1N4A-ADJgVZ--FNnVln6ZKeb8vL0oxOHk5Y3EUsPR14oN_223DtU1lulLanEAyoPvpZPB8XC4SDAbj3";
 
-// getToken(messaging, { vapidKey: publicKey })
-//   .then((currentToken) => {
-//     if (currentToken) console.log(currentToken);
-//     else console.log("no premission");
-//   })
-//   .catch((error) => console.log(error));
-
-export const getTokenId = async (setTokenFound) => {
+export const getTokenID = async (setTokenFound) => {
   let cureentToken = "";
   try {
-    cureentToken = await getToken(messaging, { vapidKey: publicKey });
+    cureentToken = await messaging.getToken({ vapidKey: publicKey });
     if (cureentToken) setTokenFound(true);
     else setTokenFound(false);
   } catch (error) {

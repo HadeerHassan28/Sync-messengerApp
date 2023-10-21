@@ -1,8 +1,4 @@
-# React + Vite
+There is an error with getToken method in firebase and that because the firebase itself based on the link
+https://github.com/firebase/firebase-js-sdk/issues/6584
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+//To run the project: npm run dev
