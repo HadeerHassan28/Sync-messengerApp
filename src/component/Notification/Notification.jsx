@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Notification.module.css";
-import { getTokenID } from "../../../firebase";
+import { getTokenId } from "../../../firebase";
 
 const Notifications = () => {
   let data;
   const [isTokenFound, setisTokenFound] = useState(false);
 
   async function tokenFuc() {
-    data = await getTokenID(setisTokenFound);
+    data = await getTokenId(setisTokenFound);
     console.log(data);
     if (data) setisTokenFound(true);
     return data;
