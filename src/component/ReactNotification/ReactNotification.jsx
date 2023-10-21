@@ -5,8 +5,8 @@ const ReactNotification = ({ title, body }) => {
   function Display() {
     return (
       <div>
-        <h4>{title}</h4>
-        <p>{body}</p>
+        <h4 className="text-danger">{title}</h4>
+        <p className="text-danger">{body}</p>
       </div>
     );
   }

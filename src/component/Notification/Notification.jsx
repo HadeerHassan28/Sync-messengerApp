@@ -1,23 +1,36 @@
-import React, { useState, useEffect } from "react";
-import styles from "./Notification.module.css";
-import { getTokenID } from "../../../firebase";
+// import React, { useState, useEffect } from "react";
+// import styles from "./Notification.module.css";
+// import { onMessageListener } from "../../../firebase";
 
-const Notifications = () => {
-  let data;
-  const [isTokenFound, setisTokenFound] = useState(false);
+// const Notifications = () => {
+//   const [show, setShow] = useState(false);
+//   const [notification, setNotification] = useState({ title: "", body: "" });
 
-  async function tokenFuc() {
-    data = await getTokenID(setisTokenFound);
-    console.log(data);
-    if (data) setisTokenFound(true);
-    return data;
-  }
+//   const handleMessages = async () => {
+//     try {
+//       const payload = await onMessageListener();
+//       console.log("New Message Received:", payload);
 
-  useEffect(() => {
-    tokenFuc(setisTokenFound);
-  }, []);
+//       if (payload) {
+//         setShow(true);
+//         setNotification({
+//           title: payload.notification.title,
+//           body: payload.notification.body,
+//         });
+//       }
+//     } catch (error) {
+//       console.error("Error handling message:", error);
+//     }
+//   };
 
-  return <></>;
-};
+//   return (
+//     <>
+//       {" "}
+//       <div>
+//         {show && <div>{`${notification.title}: ${notification.body}`}</div>}
+//       </div>
+//     </>
+//   );
+// };
 
-export default Notifications;
+// export default Notifications;

@@ -4,10 +4,12 @@ import Home from "./component/Home/Home";
 import ChatRoom from "./component/ChatRoom/ChatRoom";
 import NavBar from "./component/NavBar/NavBar";
 import ReactNotification from "./component/ReactNotification/ReactNotification";
-import Notifications from "./component/Notification/Notification";
+// import Notifications from "./component/Notification/Notification";
 import Cookies from "universal-cookie";
 import { signOut } from "firebase/auth";
-import { auth, onMessageListener } from "../firebase";
+import { auth, messaging } from "../firebase";
+import { onMessage } from "@firebase/messaging";
+
 const cookies = new Cookies();
 function App() {
   const [isAuth, setIsAuth] = useState(cookies.get("auth-token"));
@@ -25,25 +27,26 @@ function App() {
   //!Notification:
   const [show, setshow] = useState(false);
   const [notification, setNotification] = useState({ title: "", body: "" });
-  const handleMessages = async () => {
+  const handleMessages = () => {
     try {
-      const payload = await onMessageListener(payload);
-      console.log("New Message Received:", payload);
-
-      // Check if payload contains necessary data
-      if (payload) {
-        setshow(true);
-        setNotification({
-          title: payload.notification.title,
-          body: payload.notification.body,
-        });
-      }
+      onMessage(messaging, (payload) => {
+        console.log("New Message Received:", payload);
+        if (payload) {
+          setshow(true);
+          setNotification({
+            title: payload.notification.title,
+            body: payload.notification.body,
+          });
+        } else console.log("error");
+      });
     } catch (error) {
       console.log("Error handling message:", error);
     }
   };
-  handleMessages();
 
+  useEffect(() => {
+    handleMessages();
+  }, [show]);
   if (!isAuth) {
     return (
       <>
@@ -54,21 +57,26 @@ function App() {
   }
   return (
     <>
+      {show ? (
+        <ReactNotification
+          title={notification.title}
+          body={notification.body}
+        />
+      ) : null}
       {room ? (
         <>
-          {show ? (
-            <ReactNotification
-              title={notification.title}
-              body={notification.body}
-            />
-          ) : null}
-          <Notifications />
+          <ReactNotification
+            title={notification.title}
+            body={notification.body}
+          />
+
+          {/* <Notifications /> */}
           <NavBar signUserOut={signUserOut} isAuth={isAuth} />
           <ChatRoom room={room} />
         </>
       ) : (
         <>
-          <Notifications />
+          {/* <Notifications /> */}
           <NavBar signUserOut={signUserOut} isAuth={isAuth} />
           <div className="contaier mt-5 mx-5">
             <div className="col-md-6 d-flex  justify-content-start align-self-center flex-column">

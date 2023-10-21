@@ -32,7 +32,7 @@ const NavBar = ({ signUserOut, isAuth }) => {
                   className="btnSignOut btn p-1 mx-5"
                   onClick={signUserOut}
                 >
-                  <strong className="mx-5 title">SignOut</strong>
+                  <strong className="mx-5 ">SignOut</strong>
                 </button>
               </div>
             </div>

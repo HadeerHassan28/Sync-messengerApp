@@ -2,8 +2,13 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getMessaging, onMessage, getToken } from "firebase/messaging";
-import "firebase/messaging";
+import {
+  getMessaging,
+  onMessage,
+  getToken,
+  // onBackgroundMessage,
+} from "firebase/messaging";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,27 +29,54 @@ export const app = initializeApp(firebaseConfig);
 export const provider = new GoogleAuthProvider();
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-const messaging = getMessaging(app);
+export const messaging = getMessaging(app);
 
 const publicKey =
-  "AAAAJ3jTiL0:APA91bH4zdE5DscUhpvzua7VRuT4GO_e72m9MwF9OQWlj3ehS-_kd3KlBTxQq1N4A-ADJgVZ--FNnVln6ZKeb8vL0oxOHk5Y3EUsPR14oN_223DtU1lulLanEAyoPvpZPB8XC4SDAbj3";
+  "BLtlo70jxVw5bqEM4nQZLRHMuWwhlNJ22BVt5zMQlI2Lynbw669pDJXmgquMJIuLL70kdhczu3fi6EWyPM_4GAE";
 
-export const getTokenID = async (setTokenFound) => {
-  let cureentToken = "";
-  try {
-    cureentToken = await messaging.getToken({ vapidKey: publicKey });
-    if (cureentToken) setTokenFound(true);
-    else setTokenFound(false);
-  } catch (error) {
-    console.log(error);
-  }
-  return cureentToken;
-};
-export const onMessageListener = () => {
-  new Promise((resolve) => {
-    const unsubscribe = onMessage(messaging, (payload) => {
-      resolve(payload);
-    });
-    return () => unsubscribe;
+export function requestPermission() {
+  console.log("Requesting permission...");
+  Notification.requestPermission().then((permission) => {
+    if (permission === "granted") {
+      console.log("Notification permission granted.");
+
+      getToken(messaging, { vapidKey: publicKey }).then((currentToken) => {
+        if (currentToken) console.log("done", currentToken);
+        else console.log("fail");
+      });
+    } else console.log("Failed");
   });
-};
+}
+requestPermission();
+// onMessage(messaging, (payload) => {
+//   console.log(`Received background message ${JSON.stringify(payload)}`);
+// });
+// new Promise((resolve) => {
+//   const unsubscribe = onMessage(messaging, (payload) => {
+//     resolve(payload);
+//   });
+//   return () => unsubscribe;
+// });
+// };
+// export const onMessageListener = () => {
+//   new Promise((resolve) => {
+//     const unsubscribe = onMessage(messaging, (payload) => {
+//       resolve(payload);
+//     });
+//     return () => unsubscribe;
+//   });
+// };
+
+// onBackgroundMessage(messaging, (payload) => {
+//   console.log(" Received background message ", payload);
+//   const notificationTitle = payload.notification.title;
+//   const notificationOptions = {
+//     body: payload.notification.body,
+//     icon: "public/chat.png",
+//   };
+
+//   return self.registration.showNotification(
+//     notificationTitle,
+//     notificationOptions
+//   );
+// });
