@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 
 import Home from "./component/Home/Home";
 import ChatRoom from "./component/ChatRoom/ChatRoom";
